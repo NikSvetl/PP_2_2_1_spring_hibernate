@@ -26,4 +26,19 @@ public class UserDaoImp implements UserDao {
       return query.getResultList();
    }
 
+   @Override
+   public User getUserByCarModelAndSeries(String model, int series) {
+
+      TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(
+              "FROM User WHERE car.model = :paramModel and car.series = :paramSeries", User.class);
+      query.setParameter("paramModel", model);
+      query.setParameter("paramSeries", series);
+      List<User> result = query.getResultList();
+      if (!result.isEmpty()) {
+         return result.get(0);
+      }
+      return null;
+   }
+
+
 }
